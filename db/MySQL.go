@@ -9,9 +9,8 @@ import (
 	"os"
 )
 
-func ConnectDB() *gorm.DB {
-	var err error
-	err = godotenv.Load(".env")
+func ConnectMySql() (*gorm.DB, error) {
+	err := godotenv.Load(".env")
 
 	var user = os.Getenv("MYSQL_USER")
 	var password = os.Getenv("MYSQL_PASSWORD")
@@ -23,8 +22,9 @@ func ConnectDB() *gorm.DB {
 		user, password, net, address, DBName)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	
 	if err != nil {
 		log.Fatal(err)
 	}
-	return db
+	return db, nil
 }
