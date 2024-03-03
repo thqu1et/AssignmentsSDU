@@ -1,7 +1,10 @@
 package entity
 
+import "gorm.io/gorm"
+
 type Instructor struct {
-	Id      uint `gorm:"primaryKey"`
-	Name    string
-	Courses []Course
+	gorm.Model
+	ID    int
+	Name  string `gorm:"not null"`
+	Email string `gorm:"unique;not null"`
 }

@@ -1,10 +1,15 @@
 package entity
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
 type Enrollment struct {
-	Id         uint `gorm:"primaryKey"`
-	StudentID  uint
-	CourseID   uint
-	EnrolledAt time.Time
+	gorm.Model
+	ID        int
+	StudentID int
+	Student   Student
+	CourseID  int
+	Course    Course
+	Grade     string
 }
