@@ -1,4 +1,4 @@
-package SQL
+package db
 
 import (
 	"fmt"
@@ -10,19 +10,23 @@ import (
 )
 
 func ConnectMySql() (*gorm.DB, error) {
-	err := godotenv.Load(".env")
+	err := godotenv.Load("/Users/askarabylkhaiyrov/Desktop/GoLang/assingment2/db/.env")
 
-	var user = os.Getenv("MYSQL_USER")
-	var password = os.Getenv("MYSQL_PASSWORD")
-	var net = os.Getenv("MYSQL_NET")
-	var address = os.Getenv("MYSQL_Address")
-	var DBName = os.Getenv("MYSQL_Name")
+	if err != nil {
+		return nil, fmt.Errorf("Error loading .env file: %w", err)
+	}
 
-	dsn := fmt.Sprintf("%s:%s@%s(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		user, password, net, address, DBName)
+	username := os.Getenv("MYSQL_USER")
+	password := os.Getenv("MYSQL_PASSWORD")
+	host := os.Getenv("MYSQL_HOST")
+	port := os.Getenv("MYSQL_PORT")
+	dbName := os.Getenv("MYSQL_DATABASE")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		username, password, host, port, dbName)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	
+
 	if err != nil {
 		log.Fatal(err)
 	}
